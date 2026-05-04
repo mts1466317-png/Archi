@@ -4,6 +4,7 @@ from typing import Any
 from uuid import uuid4
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from wisdom_engine.pipeline import WisdomResponsePipeline
@@ -13,6 +14,13 @@ app = FastAPI(
     title="Archi AI",
     description="Guide Intelligence System",
     version="0.1.0",
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 pipeline = WisdomResponsePipeline()
 

@@ -66,7 +66,9 @@ function DiagnosticsPanel({ diagnostics }: { diagnostics: ChatResponse | null })
 }
 
 export default function Home() {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const API_URL = (
+    process.env.NEXT_PUBLIC_API_URL || "https://backend-production-eeb8.up.railway.app"
+  ).replace(/\/+$/, "");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -93,6 +95,8 @@ export default function Home() {
         ...prev,
         { role: "assistant", text: data.response, mode: data.selected_mode },
       ]);
+    } catch (error) {
+      console.error("Fetch error:", error);
     } finally {
       setLoading(false);
     }
